@@ -23,7 +23,7 @@ messages.Sort("[ReceivedTime]", True)
 # easier and make it look like the data that we already have
 def convert_xlsx_csv():
     read_file = pd.read_excel("ProspectorPatrons.xlsx")
-    read_file.to_csv(r'Path to store the CSV file\File name.csv', index=None, header=True)
+    read_file.to_csv("ProspectorPatrons.csv", index=None, header=True)
 
 
 # This function allows us to automatically space the columns within the excel file so the user no longer has to do this
@@ -58,3 +58,5 @@ def save_attachments(subject, messages):
     xfile.save("ProspectorPatrons.xlsx")
     convert_xlsx_csv()
 
+
+save_attachments("prospector", messages)
