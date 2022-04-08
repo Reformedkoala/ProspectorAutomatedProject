@@ -9,12 +9,37 @@
 import datetime
 import os
 import win32com.client
-path = os.path.expanduser("C:\\Users\\garrettthompson_a\\Downloads")
+import pandas as pd
+import openpyxl
+path = os.path.expanduser("C:\\Users\\garrettthompson_a\\Downloads\\Prospector\\ProspectorAutomatedProject")
 today = datetime.date.today()
 outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
 inbox = outlook.GetDefaultFolder(6)
 messages = inbox.Items
 messages.Sort("[ReceivedTime]", True)
+
+
+# This function converts the csv data that we have cleaned into something that we can use a bit
+# easier and make it look like the data that we already have
+def convert_xlsx_csv():
+    read_file = pd.read_excel("ProspectorPatrons.xlsx")
+    read_file.to_csv(r'Path to store the CSV file\File name.csv', index=None, header=True)
+
+
+# This function allows us to automatically space the columns within the excel file so the user no longer has to do this
+# themselves this is done through the openpyxl library
+def delete_rows(sheet):
+    # iterate the sheet by rows
+    for row in sheet.iter_rows():
+
+        # all() return False if all of the row value is None
+        if not all(cell.value for cell in row):
+            # detele the empty row
+            sheet.delete_rows(row[0].row, 1)
+
+            # recursively call the remove() with modified sheet data
+            delete_rows(sheet)
+            return
 
 
 def save_attachments(subject, messages):
@@ -27,5 +52,9 @@ def save_attachments(subject, messages):
         attachment.SaveAsFile(os.path.join(path, str(attachment)))
         if message.Subject == subject and message.Unread:
             message.Unread = False
-
+    xfile = openpyxl.load_workbook("ProspectorPatrons.xlsx")
+    sheet = xfile["Sheet1"]
+    delete_rows(sheet)
+    xfile.save("ProspectorPatrons.xlsx")
+    convert_xlsx_csv()
 
