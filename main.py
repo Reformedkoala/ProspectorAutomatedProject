@@ -11,6 +11,7 @@ import os
 import win32com.client
 import pandas as pd
 import openpyxl
+import csv
 path = os.path.expanduser("C:\\Users\\garrettthompson_a\\Downloads\\Prospector\\ProspectorAutomatedProject")
 today = datetime.date.today()
 outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
@@ -46,7 +47,6 @@ def save_attachments(subject, messages):
     message = messages.GetFirst()
     print(str(message))
     if message.Subject == subject:
-        # body_content = message.body
         attachments = message.Attachments
         attachment = attachments.Item(1)
         attachment.SaveAsFile(os.path.join(path, str(attachment)))
@@ -59,4 +59,26 @@ def save_attachments(subject, messages):
     convert_xlsx_csv()
 
 
-save_attachments("prospector", messages)
+def change_filename(filename1, filename2):
+    date = datetime.date.today().strftime('%Y-%m-%d')
+    xlsx_file = "minespatrons" + date + ".xlsx"
+    csv_file = "minespatrons" + date + ".csv"
+    os.rename(filename1, xlsx_file)
+    os.rename(filename2, csv_file)
+
+
+def check_csv(csv_file):
+    with open(csv_file) as csvfile:
+        fileread = csv.reader(csvfile)
+        for row in fileread:
+            if row[0][-4:] == "2341":
+                continue
+            else:
+                print("error in csv file")
+                return -1
+        print("File is correct")
+
+
+#save_attachments("prospector", messages)
+#change_filename("ProspectorPatrons.xlsx", "ProspectorPatrons.csv")
+#check_csv("minespatrons2022-04-18.csv")
