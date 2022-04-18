@@ -1,17 +1,17 @@
-File is produced every week on Monday morning in an Excel format (.xlsx)
+File is produced every week on Monday morning in an Excel format (.xlsx) //Need to pull directly from shared email
 
 Small alterations need to be done with these files (see image)
 
-First three rows of files need to be deleted (so that the first row is the first row of patron data)
+First three rows of files need to be deleted (so that the first row is the first row of patron data) //done
 
-If there is additional data after the last row of patron data, it needs to be deleted as well
+If there is additional data after the last row of patron data, it needs to be deleted as well //done
 
 Go to Library Department SharedSpace – see https://its.mines.edu/shared-files/
 
 Go to – //LB/SharedSpace/Systems/Discovery/Prospector/Patron Records/
 
-Save as minespatronsyyyy-mm-dd.xlsx and minespatronsyyyy-mm-dd.csv
+Save as minespatronsyyyy-mm-dd.xlsx and minespatronsyyyy-mm-dd.csv //done
 
-Examine the .csv file to ensure that the Unique Identifier (column A) all end in 2341
+Examine the .csv file to ensure that the Unique Identifier (column A) all end in 2341 //done
 
 Let Lisa know that you are done

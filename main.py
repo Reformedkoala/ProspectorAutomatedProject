@@ -12,12 +12,7 @@ import win32com.client
 import pandas as pd
 import openpyxl
 import csv
-path = os.path.expanduser("C:\\Users\\garrettthompson_a\\Downloads\\Prospector\\ProspectorAutomatedProject")
-today = datetime.date.today()
-outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
-inbox = outlook.GetDefaultFolder(6)
-messages = inbox.Items
-messages.Sort("[ReceivedTime]", True)
+import shutil
 
 
 # This function converts the csv data that we have cleaned into something that we can use a bit
@@ -44,27 +39,34 @@ def delete_rows(sheet):
 
 
 def save_attachments(subject, messages):
-    message = messages.GetFirst()
-    print(str(message))
-    if message.Subject == subject:
-        attachments = message.Attachments
-        attachment = attachments.Item(1)
-        attachment.SaveAsFile(os.path.join(path, str(attachment)))
-        if message.Subject == subject and message.Unread:
-            message.Unread = False
-    xfile = openpyxl.load_workbook("ProspectorPatrons.xlsx")
-    sheet = xfile["Sheet1"]
-    delete_rows(sheet)
-    xfile.save("ProspectorPatrons.xlsx")
-    convert_xlsx_csv()
+    check = 0
+    for message in messages:
+        if message.Subject == subject:
+            attachments = message.Attachments
+            attachment = attachments.Item(2)
+            attachment.SaveAsFile(os.path.join(path, str(attachment)))
+            if message.Subject == subject and message.Unread:
+                message.Unread = False
+            xfile = openpyxl.load_workbook("ProspectorPatrons.xlsx")
+            sheet = xfile["Sheet1"]
+            delete_rows(sheet)
+            for row in sheet.iter_rows():
+                sheet.delete_rows(row[0].row, 1)
+                break
+            xfile.save("ProspectorPatrons.xlsx")
+            convert_xlsx_csv()
+            check = 1
+            break
+    if check == 1:
+        print("Email found and converted successfully")
+    else:
+        print("Correct email not found")
+        return -1
 
 
 def change_filename(filename1, filename2):
-    date = datetime.date.today().strftime('%Y-%m-%d')
-    xlsx_file = "minespatrons" + date + ".xlsx"
-    csv_file = "minespatrons" + date + ".csv"
-    os.rename(filename1, xlsx_file)
-    os.rename(filename2, csv_file)
+    shutil.move(filename1, xlsx_file)
+    shutil.move(filename2, csv_file)
 
 
 def check_csv(csv_file):
@@ -79,6 +81,18 @@ def check_csv(csv_file):
         print("File is correct")
 
 
-#save_attachments("prospector", messages)
-#change_filename("ProspectorPatrons.xlsx", "ProspectorPatrons.csv")
-#check_csv("minespatrons2022-04-18.csv")
+path = os.path.expanduser("C:\\Users\\garrettthompson_a\\Downloads\\Prospector\\ProspectorAutomatedProject")
+path2 = "Y:\\LB\\SharedSpace\\Systems\\Discovery\\Prospector\\" #Patron Records\\
+today = datetime.date.today()
+outlook = win32com.client.Dispatch('outlook.application').GetNamespace("MAPI").Folders
+folder = outlook(1)
+inbox = folder.Folders("Inbox")
+messages = inbox.Items
+messages.Sort("[ReceivedTime]", True)
+date = datetime.date.today().strftime('%Y-%m-%d')
+xlsx_file = path2 + "minespatrons" + date + ".xlsx"
+csv_file = path2 + "minespatrons" + date + ".csv"
+
+save_attachments("ProspectorPatrons", messages)
+change_filename("ProspectorPatrons.xlsx", "ProspectorPatrons.csv")
+check_csv(csv_file)
