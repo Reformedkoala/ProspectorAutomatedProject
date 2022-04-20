@@ -1,4 +1,4 @@
-File is produced every week on Monday morning in an Excel format (.xlsx) //Need to pull directly from shared email
+File is produced every week on Monday morning in an Excel format (.xlsx) //done
 
 Small alterations need to be done with these files (see image)
 
@@ -13,5 +13,3 @@ Go to – //LB/SharedSpace/Systems/Discovery/Prospector/Patron Records/
 Save as minespatronsyyyy-mm-dd.xlsx and minespatronsyyyy-mm-dd.csv //done
 
 Examine the .csv file to ensure that the Unique Identifier (column A) all end in 2341 //done
-
-Let Lisa know that you are done
