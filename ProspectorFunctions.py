@@ -87,7 +87,7 @@ def check_csv(csv_file):
 # setting our default path variable to originally save the xlsx file to in order to manipulate it within the program
 path = os.path.expanduser("C:\\Users\\garrettthompson_a\\Downloads\\Prospector\\ProspectorAutomatedProject")
 # path to where we need the files to be
-path2 = "Y:\\LB\\SharedSpace\\Systems\\Discovery\\Prospector\\"  # Patron Records\\
+path2 = "Y:\\LB\\SharedSpace\\Systems\\Discovery\\Prospector\\Patron Records\\"
 # finding the date for when we save the file
 today = datetime.date.today()
 # opening the outlook application and finding the proper inbox
