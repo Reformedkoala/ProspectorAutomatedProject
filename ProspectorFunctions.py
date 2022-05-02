@@ -7,7 +7,6 @@ import openpyxl
 import csv
 import shutil
 
-
 # This function converts the xlsx data into a csv per the requirement for the patron records folder
 def convert_xlsx_csv():
     read_file = pd.read_excel("ProspectorPatrons.xlsx")
@@ -62,7 +61,6 @@ def save_attachments(subject, messages):
         print("Email found and converted successfully")
     else:
         print("Correct email not found")
-        return -1
 
 
 def change_filename(filename1, filename2):
